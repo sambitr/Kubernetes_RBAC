@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata: 
+  name: <rolename. for example>deployusers
+  namespace: <namespace name>
+rules:
+- apiGroups: [""]
+  resources: ["services", "endpoints", "pods", "secrets", "replicasets", "persistentvolume", "persistentvolumeclaim"]
+  verbs: ["get", "watch", "list", "log", "secret", "update", "delete"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: <name of rolebinding example>appdeploy-bind
+  namespace: <NS name>
+roleRef:
+  apiGroups: rbac.authorization.k8s.io
+  name: <refer the role name created in teh Role creation>deployusers
+subjects:
+- kind: ServiceAccount
+  name: app-deployer
+  namespace: <namespace name>
